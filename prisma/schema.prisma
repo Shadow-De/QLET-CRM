@@ -1,0 +1,100 @@
+// This is your Prisma schema file
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Agent {
+  id                  String       @id @default(uuid())
+  email               String       @unique
+  passwordHash        String
+  hasSeenTour         Boolean      @default(false)
+  role                AgentRole    @default(AGENT)
+  failedLoginAttempts Int          @default(0)
+  lockedUntil         DateTime?
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  intakeLinks         IntakeLink[]
+}
+
+enum AgentRole {
+  AGENT
+  ADMIN
+}
+
+model IntakeLink {
+  id         String   @id @default(uuid())
+  note       String?
+  expiresAt  DateTime
+  usageCount Int      @default(0)
+  createdAt  DateTime @default(now())
+  agentId    String
+  agent      Agent    @relation(fields: [agentId], references: [id])
+  leads      Lead[]
+}
+
+model Lead {
+  id            String      @id @default(uuid())
+  intakeLinkId  String?
+  intakeLink    IntakeLink? @relation(fields: [intakeLinkId], references: [id])
+  name          String      @db.VarChar(200)
+  phone         String?     @db.VarChar(30)
+  groupType     String      @db.VarChar(20) // Single / Couple / Group
+  men           Int         @default(0)
+  women         Int         @default(0)
+  hasChildren   Boolean     @default(false)
+  childrenAges  String?     @db.VarChar(100)
+  hasPets       Boolean     @default(false)
+  petDetails    String?     @db.VarChar(200)
+  nationality   String?     @db.VarChar(100)
+  visaType      String?     @db.VarChar(100)
+  propertyType  String      @db.VarChar(50)
+  budget        String?     @db.VarChar(50)
+  preferredArea String?     @db.VarChar(200)
+  moveInDate    String?     @db.VarChar(50)
+  notes         String?     @db.VarChar(2000)
+  status        LeadStatus  @default(New)
+  statusAt      DateTime    @default(now())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  deletedAt     DateTime?   // Soft delete for GDPR erasure
+}
+
+enum LeadStatus {
+  New
+  Contacted
+  Viewing
+  Negotiating
+  Won
+  Lost
+}
+
+model Property {
+  id            String    @id @default(uuid())
+  reference     String    @unique @db.VarChar(50)
+  city          String    @db.VarChar(100)
+  ownerName     String?   @db.VarChar(200)
+  ownerMobile   String?   @db.VarChar(30)
+  propertyType  String    @db.VarChar(50)
+  price         String?   @db.VarChar(50)
+  available     Boolean   @default(true)
+  availableFrom DateTime?
+  notes         String?   @db.VarChar(2000)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  event     String   @db.VarChar(100)
+  ip        String?  @db.VarChar(45)
+  detail    String?  @db.VarChar(500)
+  createdAt DateTime @default(now())
+}
