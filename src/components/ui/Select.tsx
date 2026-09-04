@@ -14,7 +14,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={selectId} className="text-sm font-medium text-text-secondary">
+          <label htmlFor={selectId} className="text-sm font-medium text-on-surface-variant">
             {label}
           </label>
         )}
@@ -22,22 +22,22 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
           ref={ref}
           id={selectId}
           className={[
-            'w-full px-3 py-2 rounded text-sm text-text-primary',
-            'bg-base-bg border border-base-border',
-            'transition-colors duration-150 cursor-pointer',
-            'focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple/30',
-            error ? 'border-red-500/50' : '',
+            'w-full px-4 py-2.5 rounded-lg text-sm text-on-surface',
+            'bg-surface-container border border-outline-variant',
+            'transition-colors duration-200 cursor-pointer',
+            'focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30',
+            error ? 'border-error/50' : 'hover:border-outline',
             className,
           ].join(' ')}
           {...props}
         >
           {options.map((opt) => (
-            <option key={opt.value} value={opt.value} className="bg-base-surface">
+            <option key={opt.value} value={opt.value} className="bg-surface-container text-on-surface">
               {opt.label}
             </option>
           ))}
         </select>
-        {error && <p className="text-xs text-red-400">{error}</p>}
+        {error && <p className="text-xs text-error">{error}</p>}
       </div>
     )
   }

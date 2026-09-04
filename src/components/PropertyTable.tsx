@@ -156,10 +156,10 @@ export function PropertyTable({ initialProperties }: PropertyTableProps) {
     return <span className="text-purple">{sortDir === 'asc' ? '↑' : '↓'}</span>
   }
 
-  const th = (field: keyof Property, label: string) => (
+  const th = (field: keyof Property, label: string, extraClass = '') => (
     <th
       onClick={() => handleSort(field)}
-      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-widest text-text-muted cursor-pointer hover:text-text-secondary select-none"
+      className={`px-4 py-3 font-medium cursor-pointer hover:text-on-surface-variant select-none ${extraClass}`}
     >
       {label} <SortIcon field={field} />
     </th>
@@ -167,59 +167,67 @@ export function PropertyTable({ initialProperties }: PropertyTableProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-end">
+      <div className="flex justify-end mb-2">
         <AddPropertyForm onAdd={handleAdd} />
       </div>
 
-      <div className="surface overflow-hidden">
+      <div className="bg-[#14141F] rounded-xl border border-primary/20 shadow-lg overflow-hidden relative backdrop-blur-md">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="border-b border-white/5">
-              <tr>
-                {th('reference', 'Ref')}
+          <table className="w-full text-left border-collapse whitespace-nowrap">
+            <thead>
+              <tr className="border-b border-outline-variant/50 bg-surface-container-low text-xs uppercase tracking-wider text-outline">
+                {th('reference', 'Reference')}
                 {th('city', 'City')}
                 {th('propertyType', 'Type')}
-                {th('price', 'Price')}
+                {th('price', 'Price/Mo', 'text-right')}
                 {th('ownerName', 'Owner')}
-                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-widest text-text-muted">Available</th>
                 {th('ownerMobile', 'Mobile')}
+                <th className="px-4 py-3 font-medium">Status</th>
+                <th className="px-4 py-3 font-medium max-w-[200px]">Notes</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-sm divide-y divide-outline-variant/30">
               {sorted.map((p, i) => (
                 <tr
                   key={p.id}
                   className={[
-                    'border-b border-white/5 hover:bg-white/[0.02] transition-colors',
-                    i % 2 === 0 ? '' : 'bg-white/[0.01]',
+                    'hover:bg-primary/5 hover:shadow-[inset_4px_0_0_#A855F7] transition-all group',
+                    i % 2 !== 0 ? 'bg-surface-container-lowest/30' : '',
                   ].join(' ')}
                 >
-                  <td className="px-4 py-3 font-mono text-xs text-purple">{p.reference}</td>
-                  <td className="px-4 py-3 text-text-primary">{p.city}</td>
-                  <td className="px-4 py-3 text-text-secondary">{p.propertyType}</td>
-                  <td className="px-4 py-3 text-text-primary font-medium">{p.price ? `€${p.price}` : '—'}</td>
-                  <td className="px-4 py-3 text-text-secondary">{p.ownerName || '—'}</td>
+                  <td className="px-4 py-3 font-mono text-secondary-fixed font-medium">{p.reference}</td>
+                  <td className="px-4 py-3 text-on-surface flex items-center gap-2">
+                    <span className="material-symbols-outlined text-outline-variant text-sm" data-weight="fill">
+                      {p.propertyType === 'Apartment' ? 'apartment' : p.propertyType === 'House' ? 'home' : 'home_work'}
+                    </span>
+                    {p.city}
+                  </td>
+                  <td className="px-4 py-3 text-on-surface-variant">{p.propertyType}</td>
+                  <td className="px-4 py-3 font-mono text-primary font-medium text-right">{p.price ? `€${p.price}` : '—'}</td>
+                  <td className="px-4 py-3 text-on-surface">{p.ownerName || '—'}</td>
+                  <td className="px-4 py-3 text-on-surface-variant font-mono text-xs">{p.ownerMobile || '—'}</td>
                   <td className="px-4 py-3">
                     <button
                       onClick={() => toggleAvailability(p.id, p.available)}
                       className={[
-                        'inline-flex items-center gap-1 text-xs font-medium rounded-full px-2 py-1 transition-all',
+                        'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-medium border transition-colors',
                         p.available
-                          ? 'bg-status-won/10 text-status-won hover:bg-status-won/20'
-                          : 'bg-status-lost/10 text-status-lost hover:bg-status-lost/20',
+                          ? 'bg-[#004d20]/30 text-[#4ade80] border-[#4ade80]/30 hover:bg-[#004d20]/50'
+                          : 'bg-error-container/30 text-error border-error/30 hover:bg-error-container/50',
                       ].join(' ')}
-                      aria-label={`Toggle availability for ${p.reference}`}
                     >
-                      <span className={`w-1.5 h-1.5 rounded-full ${p.available ? 'bg-status-won' : 'bg-status-lost'}`} />
+                      <span className={`w-1.5 h-1.5 rounded-full ${p.available ? 'bg-[#4ade80]' : 'bg-error'}`} />
                       {p.available ? 'Available' : 'Let'}
                     </button>
                   </td>
-                  <td className="px-4 py-3 text-text-secondary text-xs font-mono">{p.ownerMobile || '—'}</td>
+                  <td className="px-4 py-3 text-outline-variant text-xs truncate max-w-[200px]" title={p.notes || ''}>
+                    {p.notes || '—'}
+                  </td>
                 </tr>
               ))}
               {sorted.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="px-4 py-12 text-center text-text-muted text-sm">
+                  <td colSpan={8} className="px-4 py-12 text-center text-outline-variant text-sm">
                     No properties yet — add your first one above.
                   </td>
                 </tr>

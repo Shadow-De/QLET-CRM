@@ -46,16 +46,16 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
       }}
       className={[
         'w-full m-auto rounded-xl p-0 shadow-purple-glow',
-        'bg-base-surface border border-purple/20',
-        'backdrop:bg-black/60 backdrop:backdrop-blur-sm',
+        'glass-card overflow-hidden',
+        'backdrop:bg-black/80 backdrop:backdrop-blur-md',
         sizes[size],
       ].join(' ')}
     >
-      <div className="flex items-center justify-between p-6 border-b border-white/5">
-        <h2 className="text-base font-semibold text-text-primary">{title}</h2>
+      <div className="flex items-center justify-between p-6 border-b border-outline-variant/30 bg-gradient-to-b from-surface to-transparent">
+        <h2 className="text-lg font-display font-medium text-on-surface tracking-tight">{title}</h2>
         <button
           onClick={onClose}
-          className="text-text-muted hover:text-text-primary transition-colors p-1 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple"
+          className="text-outline hover:text-on-surface transition-colors p-1 rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
           aria-label="Close"
         >
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

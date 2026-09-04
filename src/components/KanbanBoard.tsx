@@ -41,33 +41,44 @@ function daysAgo(date: Date | string): string {
 function LeadCard({ lead, onClick }: { lead: Lead; onClick: () => void }) {
   const pax = lead.men + lead.women
   return (
-    <button
+    <div
       onClick={onClick}
-      className="w-full text-left surface surface-hover p-3 flex flex-col gap-2 animate-slide-up"
+      className="lead-card rounded-xl p-4 cursor-pointer"
+      role="button"
       aria-label={`Lead: ${lead.name}`}
     >
-      <div className="flex items-start justify-between gap-2">
-        <p className="text-sm font-semibold text-text-primary leading-tight truncate">{lead.name}</p>
-        <span className="text-[10px] text-text-muted shrink-0">{daysAgo(lead.createdAt)}</span>
+      <div className="flex justify-between items-start mb-2">
+        <h4 className="font-bold text-on-surface text-lg">{lead.name}</h4>
+        <span className="material-symbols-outlined text-outline text-sm">more_horiz</span>
       </div>
-      <div className="flex flex-wrap gap-1.5 text-[11px] text-text-muted">
-        <span>{lead.groupType}{pax > 0 ? ` · ${pax}` : ''}</span>
-        {lead.hasChildren && <span>· 👶</span>}
-        {lead.hasPets && <span>· 🐾</span>}
-        <span>· {lead.propertyType}</span>
+      <div className="space-y-2 mb-4">
+        <div className="flex items-center gap-2 text-sm text-on-surface-variant">
+          <span className="material-symbols-outlined text-[16px]">apartment</span>
+          <span>{lead.propertyType}{lead.preferredArea ? `, ${lead.preferredArea}` : ''}</span>
+        </div>
+        {(lead.budget || pax > 0 || lead.hasChildren || lead.hasPets) && (
+          <div className="flex items-center gap-2 text-sm text-tertiary">
+            <span className="material-symbols-outlined text-[16px]">euro</span>
+            <span className="font-medium">
+              {lead.budget ? `€${lead.budget}/mo` : 'TBD'}
+              {pax > 0 ? ` • ${pax} pax` : ''}
+              {lead.hasChildren ? ' • 👶' : ''}
+              {lead.hasPets ? ' • 🐾' : ''}
+            </span>
+          </div>
+        )}
       </div>
-      {lead.budget && (
-        <p className="text-xs text-purple font-medium">€{lead.budget}</p>
-      )}
-      {lead.preferredArea && (
-        <p className="text-[11px] text-text-muted truncate">📍 {lead.preferredArea}</p>
-      )}
-      {lead.intakeLinkId && (
-        <span className="text-[10px] text-violet bg-violet/10 border border-violet/20 rounded px-1.5 py-0.5 self-start">
-          From form
+      <div className="flex justify-between items-center">
+        <span className="text-[10px] uppercase tracking-wider text-outline px-2 py-1 bg-surface-container-high rounded border border-outline-variant/30">
+          {daysAgo(lead.createdAt)}
         </span>
-      )}
-    </button>
+        {lead.intakeLinkId && (
+          <span className="text-[10px] text-primary uppercase tracking-wider text-outline px-2 py-1 bg-primary/10 rounded border border-primary/30">
+            Form
+          </span>
+        )}
+      </div>
+    </div>
   )
 }
 
@@ -82,11 +93,9 @@ export function KanbanBoard({ initialLeads }: KanbanBoardProps) {
   function handleLeadUpdate(updatedLead: Lead) {
     setLeads((prev) => {
       const newState = { ...prev }
-      // Remove from all columns
       for (const status of STATUSES) {
         newState[status] = newState[status].filter((l) => l.id !== updatedLead.id)
       }
-      // Add to new column
       const newStatus = updatedLead.status as LeadStatus
       newState[newStatus] = [updatedLead, ...newState[newStatus]]
       return newState
@@ -105,45 +114,53 @@ export function KanbanBoard({ initialLeads }: KanbanBoardProps) {
     setSelected(null)
   }
 
-  const columnColors: Record<LeadStatus, string> = {
-    New: 'border-t-purple',
-    Contacted: 'border-t-violet',
-    Viewing: 'border-t-yellow-500',
-    Negotiating: 'border-t-blue-500',
-    Won: 'border-t-status-won',
-    Lost: 'border-t-status-lost',
+  const columnConfig: Record<LeadStatus, { color: string, hex: string }> = {
+    New: { color: 'primary', hex: '#A855F7' },
+    Contacted: { color: 'secondary', hex: '#6D5EF5' },
+    Viewing: { color: 'tertiary', hex: '#4ADE80' }, // using green for tertiary here to match screenshot mapping
+    Negotiating: { color: 'error', hex: '#F87171' },
+    Won: { color: 'green-500', hex: '#10B981' },
+    Lost: { color: 'outline', hex: '#9898B0' },
   }
 
   return (
     <>
-      <div className="flex gap-4 overflow-x-auto pb-4" style={{ minHeight: 'calc(100vh - 160px)' }}>
-        {STATUSES.map((status) => (
-          <div
-            key={status}
-            className="flex flex-col flex-shrink-0 w-60"
-            role="region"
-            aria-label={`${status} column`}
-          >
-            <div className={`surface border-t-2 ${columnColors[status]} px-3 py-2.5 mb-2 flex items-center justify-between`}>
-              <StatusBadge status={status} />
-              <span className="text-xs text-text-muted font-mono">{leads[status].length}</span>
+      <div className="flex gap-6 overflow-x-auto pb-4 h-full" style={{ minHeight: 'calc(100vh - 160px)' }}>
+        {STATUSES.map((status) => {
+          const config = columnConfig[status]
+          return (
+            <div
+              key={status}
+              className="w-80 flex flex-col h-full shrink-0"
+              role="region"
+              aria-label={`${status} column`}
+            >
+              <div className="flex items-center justify-between mb-4 px-2">
+                <h3 className="font-display font-semibold text-on-surface tracking-wide flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full`} style={{ backgroundColor: config.hex }}></span>
+                  {status}
+                </h3>
+                <span className={`bg-surface-container-high px-2 py-0.5 rounded text-xs font-bold text-${config.color}`} style={{ color: config.hex }}>
+                  {leads[status].length}
+                </span>
+              </div>
+              <div className="kanban-column flex-1 overflow-y-auto space-y-3 pb-4">
+                {leads[status].map((lead) => (
+                  <LeadCard
+                    key={lead.id}
+                    lead={lead}
+                    onClick={() => setSelected(lead)}
+                  />
+                ))}
+                {leads[status].length === 0 && (
+                  <div className="h-24 border border-dashed border-outline-variant/30 rounded-xl flex items-center justify-center text-outline text-sm font-body bg-surface-container-low/50">
+                    Drop card here
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="flex flex-col gap-2 flex-1">
-              {leads[status].map((lead) => (
-                <LeadCard
-                  key={lead.id}
-                  lead={lead}
-                  onClick={() => setSelected(lead)}
-                />
-              ))}
-              {leads[status].length === 0 && (
-                <div className="border-2 border-dashed border-base-border rounded-lg p-4 text-center text-text-muted text-xs">
-                  No leads
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
 
       {selected && (

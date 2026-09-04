@@ -37,23 +37,23 @@ function ProgressBar({ step }: { step: Step }) {
         {STEPS.map((label, i) => (
           <div key={i} className="flex flex-col items-center gap-1.5 flex-1">
             <div className={[
-              'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all',
-              i + 1 < step ? 'bg-[#A855F7] text-white' :
-              i + 1 === step ? 'bg-[#A855F7]/20 border-2 border-[#A855F7] text-[#A855F7]' :
-              'bg-[#14141F] border border-[rgba(168,85,247,0.15)] text-[#5C5C78]',
+              'w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all shadow-inner',
+              i + 1 < step ? 'bg-primary text-on-primary shadow-[0_0_10px_rgba(221,183,255,0.4)]' :
+              i + 1 === step ? 'bg-primary/20 border border-primary text-primary shadow-[0_0_10px_rgba(221,183,255,0.2)]' :
+              'bg-surface-container-high border border-outline-variant/30 text-outline',
             ].join(' ')}>
               {i + 1 < step ? '✓' : i + 1}
             </div>
           </div>
         ))}
       </div>
-      <div className="w-full bg-[#14141F] h-1 rounded-full">
+      <div className="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
         <div
-          className="bg-[#A855F7] h-1 rounded-full transition-all duration-500"
+          className="bg-primary h-1 rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(221,183,255,0.6)]"
           style={{ width: `${((step - 1) / (STEPS.length - 1)) * 100}%` }}
         />
       </div>
-      <p className="text-center text-xs text-[#9898B0] mt-2">{STEPS[step - 1]}</p>
+      <p className="text-center text-xs font-label uppercase tracking-widest text-on-surface-variant mt-3">{STEPS[step - 1]}</p>
     </div>
   )
 }
@@ -63,17 +63,17 @@ function Field({ label, required, children, hint }: {
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-sm font-medium text-[#9898B0]">
-        {label}{required && <span className="text-[#A855F7] ml-0.5">*</span>}
+      <label className="text-sm font-medium text-on-surface-variant font-body">
+        {label}{required && <span className="text-primary ml-1">*</span>}
       </label>
       {children}
-      {hint && <p className="text-xs text-[#5C5C78]">{hint}</p>}
+      {hint && <p className="text-xs text-outline mt-0.5">{hint}</p>}
     </div>
   )
 }
 
-const inputClass = "w-full px-3 py-2.5 rounded-lg text-sm text-[#F1F1F8] bg-[#0B0B12] border border-[rgba(168,85,247,0.15)] placeholder:text-[#5C5C78] focus:outline-none focus:border-[#A855F7] focus:ring-1 focus:ring-[rgba(168,85,247,0.3)] transition-colors"
-const checkboxClass = "w-4 h-4 rounded border-[rgba(168,85,247,0.3)] bg-[#0B0B12] accent-[#A855F7] cursor-pointer"
+const inputClass = "w-full px-4 py-3 rounded-lg text-sm text-on-surface bg-surface-container-high border border-outline-variant/50 placeholder:text-outline focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all font-body"
+const checkboxClass = "w-4 h-4 rounded border-outline-variant/50 bg-surface-container-high text-primary focus:ring-primary/30 focus:ring-offset-background cursor-pointer"
 
 export function IntakeForm({ token }: { token: string }) {
   const [step, setStep] = useState<Step>(1)
@@ -144,14 +144,14 @@ export function IntakeForm({ token }: { token: string }) {
   if (submitted) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="max-w-sm w-full text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[rgba(57,255,136,0.1)] border border-[rgba(57,255,136,0.3)] mb-6">
+        <div className="max-w-sm w-full text-center p-8 glass-card rounded-2xl">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-status-won/10 border border-status-won/30 mb-6 shadow-[0_0_20px_rgba(57,255,136,0.15)]">
             <svg width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="#39FF88" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-xl font-semibold text-[#F1F1F8] mb-3">Application Received!</h1>
-          <p className="text-[#9898B0] text-sm leading-relaxed">
+          <h1 className="text-2xl font-display font-medium text-on-surface mb-3 tracking-tight">Application Received!</h1>
+          <p className="text-on-surface-variant font-body text-sm leading-relaxed">
             Thank you — your agent will be in touch shortly.
           </p>
         </div>
@@ -160,20 +160,20 @@ export function IntakeForm({ token }: { token: string }) {
   }
 
   return (
-    <div className="min-h-screen flex items-start justify-center p-4 pt-10">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen flex items-start justify-center p-4 pt-8 pb-16">
+      <div className="w-full max-w-xl">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-[rgba(168,85,247,0.1)] border border-[rgba(168,85,247,0.2)] mb-4">
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="#A855F7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <div className="text-center mb-8 relative z-10">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 mb-4 shadow-[0_0_15px_rgba(221,183,255,0.1)]">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" className="text-primary" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-[#F1F1F8]">Rental Application</h1>
-          <p className="text-sm text-[#9898B0] mt-1">Malta Lettings</p>
+          <h1 className="text-3xl font-display font-bold text-on-surface tracking-tight">Rental Application</h1>
+          <p className="text-sm font-label uppercase tracking-widest text-primary mt-2">Malta Lettings</p>
         </div>
 
-        <div className="bg-[#14141F] border border-[rgba(168,85,247,0.15)] rounded-2xl p-6">
+        <div className="glass-card rounded-2xl p-6 sm:p-8 relative z-10">
           <ProgressBar step={step} />
 
           {/* Honeypot — hidden from real users */}
@@ -221,10 +221,10 @@ export function IntakeForm({ token }: { token: string }) {
                       type="button"
                       onClick={() => set('groupType', t)}
                       className={[
-                        'flex-1 py-2.5 rounded-lg text-sm font-medium border transition-all',
+                        'flex-1 py-3 rounded-lg text-sm font-medium border transition-all',
                         form.groupType === t
-                          ? 'bg-[rgba(168,85,247,0.15)] border-[#A855F7] text-[#A855F7]'
-                          : 'bg-[#0B0B12] border-[rgba(168,85,247,0.15)] text-[#9898B0] hover:border-[rgba(168,85,247,0.3)]',
+                          ? 'bg-primary/10 border-primary text-primary shadow-[inset_0_0_10px_rgba(221,183,255,0.1)]'
+                          : 'bg-surface-container-high border-outline-variant/30 text-outline hover:border-primary/40 hover:text-on-surface',
                       ].join(' ')}
                     >
                       {t}
@@ -241,16 +241,16 @@ export function IntakeForm({ token }: { token: string }) {
                 </Field>
               </div>
               <div className="flex flex-col gap-2">
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-3 cursor-pointer">
                   <input type="checkbox" className={checkboxClass} checked={form.hasChildren} onChange={(e) => set('hasChildren', e.target.checked)} />
-                  <span className="text-sm text-[#9898B0]">Travelling with children</span>
+                  <span className="text-sm text-on-surface-variant font-body">Travelling with children</span>
                 </label>
                 {form.hasChildren && (
                   <input className={inputClass} value={form.childrenAges} onChange={(e) => set('childrenAges', e.target.value)} maxLength={100} placeholder="Ages, e.g. 3, 7" />
                 )}
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-3 cursor-pointer">
                   <input type="checkbox" className={checkboxClass} checked={form.hasPets} onChange={(e) => set('hasPets', e.target.checked)} />
-                  <span className="text-sm text-[#9898B0]">Have pets</span>
+                  <span className="text-sm text-on-surface-variant font-body">Have pets</span>
                 </label>
                 {form.hasPets && (
                   <input className={inputClass} value={form.petDetails} onChange={(e) => set('petDetails', e.target.value)} maxLength={200} placeholder="e.g. 1 small dog" />
@@ -282,10 +282,10 @@ export function IntakeForm({ token }: { token: string }) {
                       type="button"
                       onClick={() => set('propertyType', t)}
                       className={[
-                        'py-2 rounded-lg text-sm font-medium border transition-all',
+                        'py-3 rounded-lg text-sm font-medium border transition-all',
                         form.propertyType === t
-                          ? 'bg-[rgba(168,85,247,0.15)] border-[#A855F7] text-[#A855F7]'
-                          : 'bg-[#0B0B12] border-[rgba(168,85,247,0.15)] text-[#9898B0] hover:border-[rgba(168,85,247,0.3)]',
+                          ? 'bg-primary/10 border-primary text-primary shadow-[inset_0_0_10px_rgba(221,183,255,0.1)]'
+                          : 'bg-surface-container-high border-outline-variant/30 text-outline hover:border-primary/40 hover:text-on-surface',
                       ].join(' ')}
                     >
                       {t}
@@ -319,7 +319,7 @@ export function IntakeForm({ token }: { token: string }) {
           {/* Step 4: Review */}
           {step === 4 && (
             <div className="flex flex-col gap-4">
-              <div className="bg-[#0B0B12] rounded-xl p-4 flex flex-col gap-3 text-sm">
+              <div className="bg-surface-container-high rounded-xl p-5 border border-outline-variant/30 flex flex-col gap-3 text-sm">
                 <ReviewRow label="Name" value={form.name} />
                 {form.phone && <ReviewRow label="Phone" value={form.phone} />}
                 <ReviewRow label="Group" value={`${form.groupType} · ${form.men + form.women} adults${form.hasChildren ? ' · with children' : ''}${form.hasPets ? ' · pets' : ''}`} />
@@ -352,12 +352,12 @@ export function IntakeForm({ token }: { token: string }) {
           )}
 
           {/* Navigation buttons */}
-          <div className="flex gap-3 mt-6">
+          <div className="flex gap-3 mt-8 pt-6 border-t border-outline-variant/20">
             {step > 1 && (
               <button
                 type="button"
                 onClick={() => setStep((s) => (s - 1) as Step)}
-                className="flex-1 py-2.5 rounded-lg text-sm font-medium border border-[rgba(168,85,247,0.2)] text-[#9898B0] hover:text-[#F1F1F8] hover:border-[rgba(168,85,247,0.4)] transition-all"
+                className="flex-1 py-3 rounded-lg text-sm font-medium border border-outline-variant/30 text-outline hover:text-on-surface hover:border-outline transition-all"
               >
                 ← Back
               </button>
@@ -367,7 +367,7 @@ export function IntakeForm({ token }: { token: string }) {
                 type="button"
                 onClick={() => canProceed() && setStep((s) => (s + 1) as Step)}
                 disabled={!canProceed()}
-                className="flex-1 py-2.5 rounded-lg text-sm font-bold bg-[#A855F7] text-white hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                className="flex-1 py-3 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary-container disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-[0_0_15px_rgba(221,183,255,0.2)] hover:shadow-[0_0_20px_rgba(221,183,255,0.4)]"
               >
                 Continue →
               </button>
@@ -376,7 +376,7 @@ export function IntakeForm({ token }: { token: string }) {
                 type="button"
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="flex-1 py-2.5 rounded-lg text-sm font-bold bg-[#A855F7] text-white hover:bg-purple-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+                className="flex-1 py-3 rounded-lg text-sm font-bold bg-primary text-on-primary hover:bg-primary-container disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(221,183,255,0.2)] hover:shadow-[0_0_20px_rgba(221,183,255,0.4)]"
               >
                 {submitting ? (
                   <>
@@ -393,7 +393,7 @@ export function IntakeForm({ token }: { token: string }) {
         </div>
 
         {/* Privacy note */}
-        <p className="text-center text-xs text-[#5C5C78] mt-4 px-4">
+        <p className="text-center text-xs text-outline mt-6 px-4">
           Your information is shared only with your agent and is handled in accordance with GDPR.
         </p>
       </div>
@@ -409,8 +409,8 @@ export function IntakeForm({ token }: { token: string }) {
 function ReviewRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-3">
-      <span className="text-[#5C5C78] w-24 shrink-0">{label}</span>
-      <span className="text-[#F1F1F8] flex-1">{value}</span>
+      <span className="text-outline w-28 shrink-0">{label}</span>
+      <span className="text-on-surface flex-1 font-medium">{value}</span>
     </div>
   )
 }

@@ -13,8 +13,8 @@ export function Card({ children, className = '', hover = false, glow = false, id
     <div
       id={id}
       className={[
-        'surface p-5',
-        hover ? 'surface-hover cursor-pointer' : '',
+        'glass-card p-6 rounded-lg relative overflow-hidden',
+        hover ? 'group-hover:border-primary group-hover:shadow-[0_0_20px_rgba(183,109,255,0.1)] cursor-pointer' : '',
         glow ? 'shadow-purple-glow' : '',
         className,
       ].join(' ')}
@@ -34,22 +34,27 @@ interface StatCardProps {
 
 export function StatCard({ label, value, delta, suffix, id }: StatCardProps) {
   return (
-    <Card id={id}>
-      <p className="text-xs font-medium uppercase tracking-widest text-text-muted mb-2">{label}</p>
-      <div className="flex items-end gap-2">
-        <span className="text-3xl font-bold text-text-primary">
+    <Card id={id} className="group">
+      <div className="absolute top-0 right-0 w-16 h-16 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-500"></div>
+      <div className="flex justify-between items-start mb-4 relative z-10">
+        <h3 className="text-sm font-medium text-on-surface-variant uppercase tracking-wider">{label}</h3>
+        <span className="material-symbols-outlined text-outline-variant text-xl">monitoring</span>
+      </div>
+      <div className="flex items-end gap-3 relative z-10">
+        <span className="text-4xl font-display font-bold text-on-surface neon-text-primary">
           {value}
-          {suffix && <span className="text-lg ml-1 text-text-secondary">{suffix}</span>}
+          {suffix && <span className="text-2xl ml-1 text-on-surface-variant">{suffix}</span>}
         </span>
         {delta != null && (
-          <span
-            className={[
-              'text-sm font-medium mb-0.5',
-              delta > 0 ? 'text-status-won' : delta < 0 ? 'text-status-lost' : 'text-text-muted',
-            ].join(' ')}
-          >
-            {delta > 0 ? '↑' : delta < 0 ? '↓' : '→'} {Math.abs(delta)}%
-          </span>
+          <div className={[
+            'flex items-center text-xs font-bold px-2 py-1 rounded bg-surface-container mb-1',
+            delta > 0 ? 'text-green-400 border border-green-500/20' : delta < 0 ? 'text-error border border-error/20' : 'text-on-surface-variant border border-outline-variant/30'
+          ].join(' ')}>
+            <span className="material-symbols-outlined text-[14px] mr-1">
+              {delta > 0 ? 'trending_up' : delta < 0 ? 'trending_down' : 'trending_flat'}
+            </span>
+            {delta > 0 ? '+' : ''}{delta}%
+          </div>
         )}
       </div>
     </Card>

@@ -116,16 +116,16 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
         role="dialog"
         aria-modal="true"
         aria-label={`Lead details: ${lead.name}`}
-        className="fixed inset-y-0 right-0 w-full max-w-md bg-base-surface border-l border-base-border z-50 flex flex-col animate-slide-in-right overflow-hidden"
+        className="fixed inset-y-0 right-0 w-full max-w-md bg-surface-container-low border-l border-outline-variant/30 z-50 flex flex-col animate-slide-in-right overflow-hidden shadow-2xl backdrop-blur-xl"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/5">
+        <div className="flex items-center justify-between p-6 border-b border-outline-variant/30 bg-gradient-to-b from-surface to-transparent">
           <div>
-            <h2 className="text-base font-semibold text-text-primary">{lead.name}</h2>
+            <h2 className="text-lg font-display font-medium text-on-surface tracking-tight">{lead.name}</h2>
             <div className="flex items-center gap-2 mt-1">
               <StatusBadge status={lead.status as LeadStatus} />
               {lead.intakeLinkId && (
-                <span className="text-[10px] text-violet bg-violet/10 border border-violet/20 rounded px-1.5 py-0.5">
+                <span className="text-[10px] text-primary bg-primary/10 border border-primary/20 rounded px-1.5 py-0.5 uppercase tracking-wider">
                   From form
                 </span>
               )}
@@ -133,7 +133,7 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded text-text-muted hover:text-text-primary hover:bg-white/5 transition-colors"
+            className="p-1.5 rounded text-outline hover:text-on-surface hover:bg-surface-variant transition-colors"
             aria-label="Close"
           >
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -155,25 +155,25 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
 
             {/* Group details */}
             <section>
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-text-muted mb-2">Group</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-2">Group</h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                <span className="text-text-muted">Type</span><span className="text-text-primary">{lead.groupType}</span>
-                {pax > 0 && <><span className="text-text-muted">Adults</span><span className="text-text-primary">{pax} ({lead.men}M / {lead.women}F)</span></>}
-                {lead.hasChildren && <><span className="text-text-muted">Children</span><span className="text-text-primary">{lead.childrenAges || 'Yes'}</span></>}
-                {lead.hasPets && <><span className="text-text-muted">Pets</span><span className="text-text-primary">{lead.petDetails || 'Yes'}</span></>}
-                {lead.nationality && <><span className="text-text-muted">Nationality</span><span className="text-text-primary">{lead.nationality}</span></>}
-                {lead.visaType && <><span className="text-text-muted">Visa</span><span className="text-text-primary">{lead.visaType}</span></>}
+                <span className="text-outline">Type</span><span className="text-on-surface">{lead.groupType}</span>
+                {pax > 0 && <><span className="text-outline">Adults</span><span className="text-on-surface">{pax} ({lead.men}M / {lead.women}F)</span></>}
+                {lead.hasChildren && <><span className="text-outline">Children</span><span className="text-on-surface">{lead.childrenAges || 'Yes'}</span></>}
+                {lead.hasPets && <><span className="text-outline">Pets</span><span className="text-on-surface">{lead.petDetails || 'Yes'}</span></>}
+                {lead.nationality && <><span className="text-outline">Nationality</span><span className="text-on-surface">{lead.nationality}</span></>}
+                {lead.visaType && <><span className="text-outline">Visa</span><span className="text-on-surface">{lead.visaType}</span></>}
               </div>
             </section>
 
             {/* Requirements */}
             <section>
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-text-muted mb-2">Requirements</h3>
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant mb-2">Requirements</h3>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                <span className="text-text-muted">Type</span><span className="text-text-primary">{lead.propertyType}</span>
-                {lead.budget && <><span className="text-text-muted">Budget</span><span className="text-text-primary text-purple">€{lead.budget}</span></>}
-                {lead.preferredArea && <><span className="text-text-muted">Area</span><span className="text-text-primary">{lead.preferredArea}</span></>}
-                {lead.moveInDate && <><span className="text-text-muted">Move-in</span><span className="text-text-primary">{lead.moveInDate}</span></>}
+                <span className="text-outline">Type</span><span className="text-on-surface">{lead.propertyType}</span>
+                {lead.budget && <><span className="text-outline">Budget</span><span className="text-primary font-medium">€{lead.budget}</span></>}
+                {lead.preferredArea && <><span className="text-outline">Area</span><span className="text-on-surface">{lead.preferredArea}</span></>}
+                {lead.moveInDate && <><span className="text-outline">Move-in</span><span className="text-on-surface">{lead.moveInDate}</span></>}
               </div>
             </section>
 
@@ -198,7 +198,7 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
             <section>
               <label
                 htmlFor="lead-notes"
-                className="text-xs font-semibold uppercase tracking-widest text-text-muted block mb-2"
+                className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant block mb-2"
               >
                 Notes
               </label>
@@ -208,7 +208,7 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
                 onChange={(e) => setNotes(e.target.value)}
                 maxLength={2000}
                 rows={4}
-                className="w-full px-3 py-2 rounded text-sm text-text-primary bg-base-bg border border-base-border placeholder:text-text-muted resize-none focus:outline-none focus:border-purple focus:ring-1 focus:ring-purple/30 transition-colors"
+                className="w-full px-3 py-2 rounded text-sm text-on-surface bg-surface-container border border-outline-variant placeholder:text-outline resize-none focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-colors"
                 placeholder="Add notes…"
               />
               <p className="text-[10px] text-text-muted text-right mt-0.5">{notes.length}/2000</p>
@@ -219,7 +219,7 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-white/5 flex items-center justify-between gap-2">
+        <div className="p-6 border-t border-outline-variant/30 flex items-center justify-between gap-2 bg-surface-container-low">
           <Button
             variant="danger"
             size="sm"
