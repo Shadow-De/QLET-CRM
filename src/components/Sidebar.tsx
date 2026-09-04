@@ -55,12 +55,51 @@ const navItems = [
 export function Sidebar() {
   const pathname = usePathname()
   const [linkModalOpen, setLinkModalOpen] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 w-56 bg-base-surface border-r border-base-border flex flex-col z-30">
+      {/* Mobile Top Bar */}
+      <div className="md:hidden flex items-center justify-between p-4 border-b border-white/5 bg-base-surface fixed top-0 left-0 right-0 z-40">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-purple/10 border border-purple/20 flex items-center justify-center shrink-0">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="#A855F7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <p className="text-sm font-bold text-text-primary leading-none">QLET</p>
+            <p className="text-[10px] text-text-muted uppercase tracking-widest mt-0.5">CRM</p>
+          </div>
+        </div>
+        <button 
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="text-text-secondary hover:text-text-primary p-1"
+          aria-label="Toggle menu"
+        >
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            {mobileOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile Backdrop */}
+      {mobileOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40" 
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`fixed inset-y-0 left-0 w-56 bg-base-surface border-r border-base-border flex flex-col z-50 transform transition-transform duration-200 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0`}>
         {/* Logo */}
-        <div className="flex items-center gap-2.5 p-5 border-b border-white/5">
+        <div className="hidden md:flex items-center gap-2.5 p-6 border-b border-white/5">
           <div className="w-8 h-8 rounded-lg bg-purple/10 border border-purple/20 flex items-center justify-center shrink-0">
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
               <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="#A855F7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

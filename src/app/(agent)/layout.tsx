@@ -16,7 +16,7 @@ export default async function AgentLayout({
   return (
     <div className="flex min-h-screen bg-base-bg bg-grid">
       <Sidebar />
-      <main className="flex-1 ml-56 p-6 min-h-screen">
+      <main className="flex-1 md:ml-56 p-4 md:p-6 min-h-screen pt-20 md:pt-6">
         {children}
       </main>
       <OnboardingTour hasSeenTour={hasSeenTour} />

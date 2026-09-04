@@ -2,6 +2,7 @@ import { auth } from '@/auth'
 import { prisma } from '@/lib/db'
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { NEXT_PUBLIC_APP_URL } from '@/lib/env'
 
 const createLinkSchema = z.object({
   note: z.string().max(200).optional(),
@@ -24,12 +25,10 @@ export async function GET() {
     },
   })
 
-  const appUrl = process.env.APP_URL || 'http://localhost:3000'
-
   return NextResponse.json({
     links: links.map((l) => ({
       ...l,
-      url: `${appUrl}/apply/${l.id}`,
+      url: `${NEXT_PUBLIC_APP_URL}/apply/${l.id}`,
       expired: l.expiresAt < new Date(),
     })),
   })
@@ -61,12 +60,10 @@ export async function POST(request: Request) {
     select: { id: true, note: true, expiresAt: true, createdAt: true },
   })
 
-  const appUrl = process.env.APP_URL || 'http://localhost:3000'
-
   return NextResponse.json({
     link: {
       ...link,
-      url: `${appUrl}/apply/${link.id}`,
+      url: `${NEXT_PUBLIC_APP_URL}/apply/${link.id}`,
     },
   })
 }

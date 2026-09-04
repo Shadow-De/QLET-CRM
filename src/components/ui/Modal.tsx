@@ -51,7 +51,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
         sizes[size],
       ].join(' ')}
     >
-      <div className="flex items-center justify-between p-5 border-b border-white/5">
+      <div className="flex items-center justify-between p-6 border-b border-white/5">
         <h2 className="text-base font-semibold text-text-primary">{title}</h2>
         <button
           onClick={onClose}
@@ -63,7 +63,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
           </svg>
         </button>
       </div>
-      <div className="p-5">{children}</div>
+      <div className="p-6">{children}</div>
     </dialog>
   )
 }

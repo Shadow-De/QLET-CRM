@@ -35,12 +35,13 @@ const publicLeadSchema = z.object({
   notes: z.string().max(2000).optional().default(''),
 })
 
+import { NEXT_PUBLIC_APP_URL } from '@/lib/env'
+
 // CORS — only our own domain
 function corsHeaders(origin: string | null) {
-  const allowedOrigin = process.env.APP_URL || 'http://localhost:3000'
-  const isAllowed = origin === allowedOrigin || !origin
+  const isAllowed = origin === NEXT_PUBLIC_APP_URL || !origin
   return {
-    'Access-Control-Allow-Origin': isAllowed ? allowedOrigin : 'null',
+    'Access-Control-Allow-Origin': isAllowed ? NEXT_PUBLIC_APP_URL : 'null',
     'Access-Control-Allow-Methods': 'POST',
     'Access-Control-Allow-Headers': 'Content-Type',
   }

@@ -119,7 +119,7 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
         className="fixed inset-y-0 right-0 w-full max-w-md bg-base-surface border-l border-base-border z-50 flex flex-col animate-slide-in-right overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-white/5">
+        <div className="flex items-center justify-between p-6 border-b border-white/5">
           <div>
             <h2 className="text-base font-semibold text-text-primary">{lead.name}</h2>
             <div className="flex items-center gap-2 mt-1">
@@ -143,7 +143,7 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-6">
           <div className="flex flex-col gap-5">
             {/* Contact info */}
             <section>
@@ -219,7 +219,7 @@ export function LeadSlideOver({ lead, onClose, onUpdate, onDelete }: LeadSlideOv
         </div>
 
         {/* Footer */}
-        <div className="p-5 border-t border-white/5 flex items-center justify-between gap-2">
+        <div className="p-6 border-t border-white/5 flex items-center justify-between gap-2">
           <Button
             variant="danger"
             size="sm"

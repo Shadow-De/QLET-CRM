@@ -1,5 +1,16 @@
 import type { Metadata } from 'next'
+import { Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space',
+})
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+})
 
 export const metadata: Metadata = {
   title: 'QLET CRM — Malta Lettings',
@@ -15,7 +26,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="bg-base-bg text-text-primary min-h-screen">
+      <body className={`${spaceGrotesk.variable} ${jetBrainsMono.variable} font-sans bg-base-bg text-text-primary min-h-screen`}>
         {children}
       </body>
     </html>
