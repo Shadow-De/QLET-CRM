@@ -47,7 +47,14 @@ export async function POST(request: Request) {
       select: { id: true, token: true, expiresAt: true, createdAt: true },
     });
 
-    const shareableUrl = `${process.env.NEXT_PUBLIC_APP_URL}/intake/${link.id}`;
+    // Derive base URL from the incoming request so it always matches the
+    // actual domain (production, preview, or local) without relying on the
+    // build-time baked NEXT_PUBLIC_APP_URL value.
+    const requestUrl = new URL(request.url);
+    const baseUrl =
+      process.env.NEXT_PUBLIC_APP_URL ||
+      `${requestUrl.protocol}//${requestUrl.host}`;
+    const shareableUrl = `${baseUrl}/intake/${link.id}`;
 
     return NextResponse.json(
       {
