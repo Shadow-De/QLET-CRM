@@ -3,8 +3,15 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { resetPasswordSchema } from "@/lib/validations/auth";
 import { logger } from "@/lib/logger";
+import { authLimiter, getClientIp } from "@/lib/ratelimit";
 
 export async function POST(request: Request) {
+  const ip = getClientIp(request);
+  const { success } = await authLimiter.limit(ip);
+  if (!success) {
+    return NextResponse.json({ error: { message: "Too many requests. Please try again later." } }, { status: 429 });
+  }
+
   let body: unknown;
   try {
     body = await request.json();

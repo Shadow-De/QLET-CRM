@@ -128,14 +128,14 @@ export async function DELETE(_request: Request, { params }: RouteContext) {
       return NextResponse.json({ error: { message: "Property not found." } }, { status: 404 });
     }
 
-    // Check for active tenants
-    const activeTenants = await prisma.$queryRaw`
-      SELECT id FROM "Tenant" WHERE "propertyId" = ${id} AND status = 'Active' LIMIT 1
+    // Check for ANY associated tenants (Active, Ended, etc.) to prevent foreign key violation
+    const associatedTenants = await prisma.$queryRaw`
+      SELECT id FROM "Tenant" WHERE "propertyId" = ${id} LIMIT 1
     ` as any[];
 
-    if (activeTenants.length > 0) {
+    if (associatedTenants.length > 0) {
       return NextResponse.json(
-        { error: { message: "Cannot delete a property with active tenants." } },
+        { error: { message: "Cannot delete a property with associated tenancy records. Please remove tenants first." } },
         { status: 409 }
       );
     }

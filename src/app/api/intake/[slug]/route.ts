@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { publicApiLimiter, getClientIp } from "@/lib/ratelimit";
 
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const ip = getClientIp(request);
+    const { success } = await publicApiLimiter.limit(ip);
+    if (!success) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
     const { slug } = await params;
     const intakeLink = await prisma.intakeLink.findFirst({
       where: {
@@ -41,6 +48,12 @@ export async function POST(
   { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const ip = getClientIp(request);
+    const { success } = await publicApiLimiter.limit(ip);
+    if (!success) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
     const { slug } = await params;
     const body = await request.json();
 

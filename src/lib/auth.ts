@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { writeAuditLog } from "@/lib/audit";
 import { z } from "zod";
+import { authLimiter, getClientIp } from "@/lib/ratelimit";
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -24,7 +25,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
+        const ip = req ? getClientIp(req as Request) : "unknown";
+        const { success } = await authLimiter.limit(`login_${ip}`);
+        if (!success) {
+          throw new Error("Rate limit exceeded. Please try again later.");
+        }
+
         const parsed = loginSchema.safeParse(credentials);
         if (!parsed.success) return null;
 
