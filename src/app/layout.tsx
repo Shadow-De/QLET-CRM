@@ -1,6 +1,7 @@
 import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/components/providers/SessionProvider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,6 +35,7 @@ export default function RootLayout({
         <SessionProvider>
           {children}
         </SessionProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
