@@ -495,6 +495,9 @@ export default function ClientIntakeWizard() {
   const params = useParams();
   const slug = params.slug as string; // e.g. "q8f-evelyn-montgomery-992"
 
+  // Link Status State
+  const [linkStatus, setLinkStatus] = useState<"checking" | "valid" | "used" | "expired" | "error">("checking");
+
   // Step State
   const [step, setStep] = useState(1);
   const totalSteps = 3;
@@ -557,6 +560,18 @@ export default function ClientIntakeWizard() {
     setOtherDetails("");
     setSubmitError("");
     setIsSubmitting(false);
+    
+    setLinkStatus("checking");
+    fetch(`/api/intake/${slug}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.valid) {
+          setLinkStatus("valid");
+        } else {
+          setLinkStatus(data.reason || "error");
+        }
+      })
+      .catch(() => setLinkStatus("error"));
   }, [slug]);
 
   const handleContinue = async () => {
@@ -638,6 +653,35 @@ export default function ClientIntakeWizard() {
   const removeArea = (area: string) => {
     setAreas(areas.filter(a => a !== area));
   };
+
+  if (linkStatus !== "valid") {
+    return (
+      <div className="bg-[#0A0710] text-on-surface antialiased min-h-screen flex items-center justify-center p-6">
+        <div className="max-w-md w-full bg-surface-container-lowest/80 backdrop-blur-md rounded-2xl p-8 border border-white/5 text-center">
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 ${linkStatus === "checking" ? "bg-primary-container/20" : linkStatus === "used" ? "bg-primary-container/20" : "bg-error/20"}`}>
+            {linkStatus === "checking" ? (
+              <span className="material-symbols-outlined text-[32px] text-primary animate-spin">hourglass_empty</span>
+            ) : (
+              <span className={`material-symbols-outlined text-[32px] ${linkStatus === "used" ? "text-primary" : "text-error"}`}>
+                {linkStatus === "used" ? "task_alt" : "error"}
+              </span>
+            )}
+          </div>
+          <h2 className="text-xl font-bold mb-2 text-on-surface">
+            {linkStatus === "checking" ? "Verifying Link..." : 
+             linkStatus === "used" ? "Already Submitted" : 
+             linkStatus === "expired" ? "Link Expired" : "Invalid Link"}
+          </h2>
+          <p className="text-outline text-sm">
+            {linkStatus === "checking" ? "Please wait a moment..." :
+             linkStatus === "used" ? "This intake form has already been submitted successfully. If you need to make changes, please contact your agent directly." :
+             linkStatus === "expired" ? "This intake link has expired. Please request a new one from your agent." :
+             "There was a problem verifying this link. Please contact your agent."}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#0A0710] text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary-container selection:text-on-primary">

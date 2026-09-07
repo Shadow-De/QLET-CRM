@@ -1,6 +1,41 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ slug: string }> }
+) {
+  try {
+    const { slug } = await params;
+    const intakeLink = await prisma.intakeLink.findFirst({
+      where: {
+        OR: [
+          { id: slug },
+          { token: slug }
+        ]
+      }
+    });
+
+    if (!intakeLink) {
+      // If mock slug or doesn't exist, we just let it proceed (or fail on POST)
+      return NextResponse.json({ valid: true });
+    }
+
+    if (intakeLink.usedAt) {
+      return NextResponse.json({ valid: false, reason: "used" });
+    }
+    
+    if (intakeLink.expiresAt < new Date()) {
+      return NextResponse.json({ valid: false, reason: "expired" });
+    }
+
+    return NextResponse.json({ valid: true });
+  } catch (error) {
+    console.error("Error fetching intake link status:", error);
+    return NextResponse.json({ valid: false, reason: "error" }, { status: 500 });
+  }
+}
+
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ slug: string }> }
