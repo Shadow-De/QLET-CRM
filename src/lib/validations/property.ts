@@ -12,6 +12,7 @@ export const createPropertySchema = z
     landlordName: z.string().max(200).optional().nullable(),
     ownerPhone: z.string().max(50).optional().nullable(),
     available: z.boolean().default(true),
+    availabilityStatus: z.enum(["Pending", "Available Now", "Available Soon", "Rented"]).default("Pending"),
     availableFrom: z.string().datetime().optional().nullable(),
     description: z.string().max(10000).optional(),
     epcRating: z.enum(["A", "B", "C", "D", "E", "F", "G"]).optional().nullable(),

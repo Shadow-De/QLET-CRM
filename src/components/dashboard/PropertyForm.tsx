@@ -30,6 +30,7 @@ export function PropertyForm({ property }: PropertyFormProps) {
     epcRating: null,
     landlordName: "",
     ownerPhone: "",
+    monthlyRent: "",
   });
 
   useEffect(() => {

@@ -15,7 +15,6 @@ type UIProperty = {
   type: string;
   rent: number;
   landlordName: string;
-  landlordName: string;
   ownerPhone: string;
   availabilityStatus: "Pending" | "Available Now" | "Available Soon" | "Rented";
   availabilityDate?: string;
@@ -53,7 +52,6 @@ export function PropertiesTable() {
     city: p.city || "Malta",
     type: `${p.bedrooms || 1} Bed ${p.type ? p.type.charAt(0).toUpperCase() + p.type.slice(1) : 'Apartment'}`,
     rent: parseFloat(p.monthlyRent) || 0,
-    landlordName: p.landlordName || "Unknown Landlord",
     landlordName: p.landlordName || "Unknown Landlord",
     ownerPhone: p.ownerPhone || "No Phone",
     availabilityStatus: p.availabilityStatus || 'Pending',
