@@ -1,0 +1,170 @@
+[2026-09-07T07:18:32.942Z] POST /api/properties - Body received: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "99647",
+  "city": "birkirkara",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "monthlyRent": "1500",
+  "available": true,
+  "description": "",
+  "epcRating": null,
+  "postcode": "",
+  "landlordName": "sam wil",
+  "ownerPhone": "1236547889"
+}
+[2026-09-07T07:18:32.943Z] POST /api/properties - Prisma create start: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "99647",
+  "city": "birkirkara",
+  "postcode": "",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "monthlyRent": "1500",
+  "landlordName": "sam wil",
+  "ownerPhone": "1236547889",
+  "available": true,
+  "description": "",
+  "epcRating": null
+}
+[2026-09-07T07:18:33.126Z] POST /api/properties - Prisma create error: {
+  "name": "PrismaClientValidationError",
+  "clientVersion": "5.22.0"
+}
+[2026-09-07T07:21:42.330Z] POST /api/properties - Body received: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "45823",
+  "city": "birkirkara",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 2,
+  "monthlyRent": "1500",
+  "available": true,
+  "description": "",
+  "epcRating": null,
+  "postcode": "",
+  "landlordName": "sam will",
+  "ownerPhone": "123654489"
+}
+[2026-09-07T07:21:42.330Z] POST /api/properties - Prisma create start: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "45823",
+  "city": "birkirkara",
+  "postcode": "",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 2,
+  "monthlyRent": "1500",
+  "landlordName": "sam will",
+  "ownerPhone": "123654489",
+  "available": true,
+  "description": "",
+  "epcRating": null
+}
+[2026-09-07T07:21:42.402Z] POST /api/properties - Prisma create error: {
+  "name": "PrismaClientValidationError",
+  "message": "\nInvalid `prisma.property.create()` invocation:\n\n{\n  data: {\n    title: \"2 Bed apartment in birkirkara\",\n    address: \"45823\",\n    city: \"birkirkara\",\n    postcode: \"\",\n    ~~~~~~~~\n    type: \"apartment\",\n    bedrooms: 2,\n    bathrooms: 2,\n    monthlyRent: \"1500\",\n    landlordName: \"sam will\",\n    ownerPhone: \"123654489\",\n    available: true,\n    description: \"\",\n    epcRating: null,\n    availableFrom: null,\n    agentId: \"1eeb0628-f0ae-434f-bf45-bc008d7e29b2\",\n?   id?: String,\n?   createdAt?: DateTime,\n?   updatedAt?: DateTime,\n?   tenants?: TenantUncheckedCreateNestedManyWithoutPropertyInput\n  },\n  select: {\n    id: true,\n    title: true,\n    monthlyRent: true,\n    available: true,\n    createdAt: true\n  }\n}\n\nUnknown argument `postcode`. Available options are marked with ?.",
+  "stack": "PrismaClientValidationError: \nInvalid `prisma.property.create()` invocation:\n\n{\n  data: {\n    title: \"2 Bed apartment in birkirkara\",\n    address: \"45823\",\n    city: \"birkirkara\",\n    postcode: \"\",\n    ~~~~~~~~\n    type: \"apartment\",\n    bedrooms: 2,\n    bathrooms: 2,\n    monthlyRent: \"1500\",\n    landlordName: \"sam will\",\n    ownerPhone: \"123654489\",\n    available: true,\n    description: \"\",\n    epcRating: null,\n    availableFrom: null,\n    agentId: \"1eeb0628-f0ae-434f-bf45-bc008d7e29b2\",\n?   id?: String,\n?   createdAt?: DateTime,\n?   updatedAt?: DateTime,\n?   tenants?: TenantUncheckedCreateNestedManyWithoutPropertyInput\n  },\n  select: {\n    id: true,\n    title: true,\n    monthlyRent: true,\n    available: true,\n    createdAt: true\n  }\n}\n\nUnknown argument `postcode`. Available options are marked with ?.\n    at wn (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at $n.handleRequestError (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6958)\n    at $n.handleAndLogRequestError (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6623)\n    at $n.request (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6307)\n    at async l (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:130:9633)\n    at async POST (file:///D:/Playground/LETTING-CRM/.next/dev/server/chunks/%5Broot-of-the-server%5D__1ux11dk._.js?id=%5Bproject%5D/src/app/api/properties/route.ts+%5Bapp-route%5D+(ecmascript):153:26)\n    at async AppRouteRouteModule.do (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:42793)\n    at async AppRouteRouteModule.handle (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:50547)\n    at async responseGenerator (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5328:30)\n    at async AppRouteRouteModule.handleResponse (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:1:250435)\n    at async handleResponse (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5400:32)\n    at async Module.handler (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5520:9)\n    at async DevServer.renderToResponseWithComponentsImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1537:9)\n    at async DevServer.renderPageComponent (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1589:24)\n    at async DevServer.renderToResponseImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1639:32)\n    at async DevServer.pipeImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1088:25)\n    at async NextNodeServer.handleCatchallRenderRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\next-server.js:338:17)\n    at async DevServer.handleRequestImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:979:17)\n    at async D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:426:20\n    at async Span.traceAsyncFn (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\trace\\trace.js:164:20)\n    at async DevServer.handleRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:422:24)\n    at async invokeRender (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:306:21)\n    at async handleRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:508:24)\n    at async requestHandlerImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:565:13)\n    at async Server.requestListener (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\start-server.js:225:13)"
+}
+[2026-09-07T07:21:58.859Z] POST /api/properties - Body received: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "45823",
+  "city": "birkirkara",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 2,
+  "monthlyRent": "1500",
+  "available": true,
+  "description": "lol",
+  "epcRating": null,
+  "postcode": "",
+  "landlordName": "sam will",
+  "ownerPhone": "123654489"
+}
+[2026-09-07T07:21:58.859Z] POST /api/properties - Prisma create start: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "45823",
+  "city": "birkirkara",
+  "postcode": "",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 2,
+  "monthlyRent": "1500",
+  "landlordName": "sam will",
+  "ownerPhone": "123654489",
+  "available": true,
+  "description": "lol",
+  "epcRating": null
+}
+[2026-09-07T07:21:59.139Z] POST /api/properties - Prisma create error: {
+  "name": "PrismaClientValidationError",
+  "message": "\nInvalid `prisma.property.create()` invocation:\n\n{\n  data: {\n    title: \"2 Bed apartment in birkirkara\",\n    address: \"45823\",\n    city: \"birkirkara\",\n    postcode: \"\",\n    ~~~~~~~~\n    type: \"apartment\",\n    bedrooms: 2,\n    bathrooms: 2,\n    monthlyRent: \"1500\",\n    landlordName: \"sam will\",\n    ownerPhone: \"123654489\",\n    available: true,\n    description: \"lol\",\n    epcRating: null,\n    availableFrom: null,\n    agentId: \"1eeb0628-f0ae-434f-bf45-bc008d7e29b2\",\n?   id?: String,\n?   createdAt?: DateTime,\n?   updatedAt?: DateTime,\n?   tenants?: TenantUncheckedCreateNestedManyWithoutPropertyInput\n  },\n  select: {\n    id: true,\n    title: true,\n    monthlyRent: true,\n    available: true,\n    createdAt: true\n  }\n}\n\nUnknown argument `postcode`. Available options are marked with ?.",
+  "stack": "PrismaClientValidationError: \nInvalid `prisma.property.create()` invocation:\n\n{\n  data: {\n    title: \"2 Bed apartment in birkirkara\",\n    address: \"45823\",\n    city: \"birkirkara\",\n    postcode: \"\",\n    ~~~~~~~~\n    type: \"apartment\",\n    bedrooms: 2,\n    bathrooms: 2,\n    monthlyRent: \"1500\",\n    landlordName: \"sam will\",\n    ownerPhone: \"123654489\",\n    available: true,\n    description: \"lol\",\n    epcRating: null,\n    availableFrom: null,\n    agentId: \"1eeb0628-f0ae-434f-bf45-bc008d7e29b2\",\n?   id?: String,\n?   createdAt?: DateTime,\n?   updatedAt?: DateTime,\n?   tenants?: TenantUncheckedCreateNestedManyWithoutPropertyInput\n  },\n  select: {\n    id: true,\n    title: true,\n    monthlyRent: true,\n    available: true,\n    createdAt: true\n  }\n}\n\nUnknown argument `postcode`. Available options are marked with ?.\n    at wn (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at $n.handleRequestError (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6958)\n    at $n.handleAndLogRequestError (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6623)\n    at $n.request (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6307)\n    at async l (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:130:9633)\n    at async POST (file:///D:/Playground/LETTING-CRM/.next/dev/server/chunks/%5Broot-of-the-server%5D__1ux11dk._.js?id=%5Bproject%5D/src/app/api/properties/route.ts+%5Bapp-route%5D+(ecmascript):153:26)\n    at async AppRouteRouteModule.do (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:42793)\n    at async AppRouteRouteModule.handle (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:50547)\n    at async responseGenerator (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5328:30)\n    at async AppRouteRouteModule.handleResponse (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:1:250435)\n    at async handleResponse (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5400:32)\n    at async Module.handler (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5520:9)\n    at async DevServer.renderToResponseWithComponentsImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1537:9)\n    at async DevServer.renderPageComponent (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1589:24)\n    at async DevServer.renderToResponseImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1639:32)\n    at async DevServer.pipeImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1088:25)\n    at async NextNodeServer.handleCatchallRenderRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\next-server.js:338:17)\n    at async DevServer.handleRequestImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:979:17)\n    at async D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:426:20\n    at async Span.traceAsyncFn (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\trace\\trace.js:164:20)\n    at async DevServer.handleRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:422:24)\n    at async invokeRender (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:306:21)\n    at async handleRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:508:24)\n    at async requestHandlerImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:565:13)\n    at async Server.requestListener (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\start-server.js:225:13)"
+}
+[2026-09-07T07:24:14.021Z] POST /api/properties - Body received: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "123365",
+  "city": "birkirkara",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "monthlyRent": "1449",
+  "available": true,
+  "description": "",
+  "epcRating": null,
+  "postcode": "",
+  "landlordName": "sam wil",
+  "ownerPhone": "123654789"
+}
+[2026-09-07T07:24:14.021Z] POST /api/properties - Prisma create start: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "123365",
+  "city": "birkirkara",
+  "postcode": "",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "monthlyRent": "1449",
+  "landlordName": "sam wil",
+  "ownerPhone": "123654789",
+  "available": true,
+  "description": "",
+  "epcRating": null
+}
+[2026-09-07T07:24:15.144Z] POST /api/properties - Prisma create error: {
+  "name": "PrismaClientValidationError",
+  "message": "\nInvalid `prisma.property.create()` invocation:\n\n{\n  data: {\n    title: \"2 Bed apartment in birkirkara\",\n    address: \"123365\",\n    city: \"birkirkara\",\n    type: \"apartment\",\n    bedrooms: 2,\n    bathrooms: 1,\n    monthlyRent: \"1449\",\n    landlordName: \"sam wil\",\n    ~~~~~~~~~~~~\n    ownerPhone: \"123654789\",\n    available: true,\n    description: \"\",\n    epcRating: null,\n    availableFrom: null,\n    agentId: \"1eeb0628-f0ae-434f-bf45-bc008d7e29b2\",\n?   id?: String,\n?   createdAt?: DateTime,\n?   updatedAt?: DateTime,\n?   tenants?: TenantUncheckedCreateNestedManyWithoutPropertyInput\n  },\n  select: {\n    id: true,\n    title: true,\n    monthlyRent: true,\n    available: true,\n    createdAt: true\n  }\n}\n\nUnknown argument `landlordName`. Available options are marked with ?.",
+  "stack": "PrismaClientValidationError: \nInvalid `prisma.property.create()` invocation:\n\n{\n  data: {\n    title: \"2 Bed apartment in birkirkara\",\n    address: \"123365\",\n    city: \"birkirkara\",\n    type: \"apartment\",\n    bedrooms: 2,\n    bathrooms: 1,\n    monthlyRent: \"1449\",\n    landlordName: \"sam wil\",\n    ~~~~~~~~~~~~\n    ownerPhone: \"123654789\",\n    available: true,\n    description: \"\",\n    epcRating: null,\n    availableFrom: null,\n    agentId: \"1eeb0628-f0ae-434f-bf45-bc008d7e29b2\",\n?   id?: String,\n?   createdAt?: DateTime,\n?   updatedAt?: DateTime,\n?   tenants?: TenantUncheckedCreateNestedManyWithoutPropertyInput\n  },\n  select: {\n    id: true,\n    title: true,\n    monthlyRent: true,\n    available: true,\n    createdAt: true\n  }\n}\n\nUnknown argument `landlordName`. Available options are marked with ?.\n    at wn (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:29:1363)\n    at $n.handleRequestError (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6958)\n    at $n.handleAndLogRequestError (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6623)\n    at $n.request (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:121:6307)\n    at async l (D:\\Playground\\LETTING-CRM\\node_modules\\@prisma\\client\\runtime\\library.js:130:9633)\n    at async POST (file:///D:/Playground/LETTING-CRM/.next/dev/server/chunks/%5Broot-of-the-server%5D__1ux11dk._.js?id=%5Bproject%5D/src/app/api/properties/route.ts+%5Bapp-route%5D+(ecmascript):154:26)\n    at async AppRouteRouteModule.do (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:42793)\n    at async AppRouteRouteModule.handle (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:50547)\n    at async responseGenerator (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5328:30)\n    at async AppRouteRouteModule.handleResponse (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:1:250435)\n    at async handleResponse (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5400:32)\n    at async Module.handler (D:\\Playground\\LETTING-CRM\\.next\\dev\\server\\chunks\\node_modules_next_1ntpprx._.js:5520:9)\n    at async DevServer.renderToResponseWithComponentsImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1537:9)\n    at async DevServer.renderPageComponent (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1589:24)\n    at async DevServer.renderToResponseImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1639:32)\n    at async DevServer.pipeImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:1088:25)\n    at async NextNodeServer.handleCatchallRenderRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\next-server.js:338:17)\n    at async DevServer.handleRequestImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\base-server.js:979:17)\n    at async D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:426:20\n    at async Span.traceAsyncFn (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\trace\\trace.js:164:20)\n    at async DevServer.handleRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:422:24)\n    at async invokeRender (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:306:21)\n    at async handleRequest (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:508:24)\n    at async requestHandlerImpl (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\router-server.js:565:13)\n    at async Server.requestListener (D:\\Playground\\LETTING-CRM\\node_modules\\next\\dist\\server\\lib\\start-server.js:225:13)"
+}
+[2026-09-07T07:30:04.843Z] POST /api/properties - Body received: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "78965",
+  "city": "birkirkara",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "monthlyRent": "1155",
+  "available": true,
+  "description": "",
+  "epcRating": null,
+  "landlordName": "sam wil",
+  "ownerPhone": "78965413"
+}
+[2026-09-07T07:30:04.845Z] POST /api/properties - Prisma create start: {
+  "title": "2 Bed apartment in birkirkara",
+  "address": "78965",
+  "city": "birkirkara",
+  "type": "apartment",
+  "bedrooms": 2,
+  "bathrooms": 1,
+  "monthlyRent": "1155",
+  "landlordName": "sam wil",
+  "ownerPhone": "78965413",
+  "available": true,
+  "description": "",
+  "epcRating": null
+}
+[2026-09-07T07:30:07.012Z] POST /api/properties - Raw SQL insert success: {
+  "id": "2b5da37c-ca76-4ff8-b813-b96d75430d23"
+}

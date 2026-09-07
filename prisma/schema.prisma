@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Agent (authenticated user / broker) ─────────────────────────────────────
+model Agent {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("agent") // agent | admin
+  position     String?
+  avatarUrl    String?  // base64 or URL
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  leads         Lead[]
+  properties    Property[]
+  intakeLinks   IntakeLink[]
+  tenants       Tenant[]
+  auditLogs     AuditLog[]
+  settings      AgentSettings?
+  passwordResets PasswordReset[]
+}
+
+// ─── Agent Settings (1-to-1 with Agent) ─────────────────────────────────────
+model AgentSettings {
+  id                    String  @id @default(uuid())
+  agentId               String  @unique
+  agent                 Agent   @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  defaultLinkExpiryDays Int     @default(7)
+  emailOnNewLead        Boolean @default(true)
+  hasSeenTour           Boolean @default(false)
+}
+
+// ─── Lead (prospective tenant inquiry) ──────────────────────────────────────
+model Lead {
+  id           String   @id @default(uuid())
+  agentId      String
+  agent        Agent    @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  name         String
+  email        String
+  phone        String?
+  nationality  String?
+  area         String?
+  propertyType String?  // "apartment" | "house" | "penthouse" | "townhouse" | "studio"
+  bedrooms     Int?
+  budget       String?
+  status       String   @default("New") // New | Contacted | Viewing | Negotiating | Won | Lost
+  source       String?  // "Rightmove" | "Zoopla" | "Referral" | "Direct" | "Other"
+  notes        String?
+  intakeLinkId String?
+  intakeLink   IntakeLink? @relation(fields: [intakeLinkId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tenant Tenant?
+}
+
+// ─── Property (asset in the portfolio) ──────────────────────────────────────
+model Property {
+  id            String    @id @default(uuid())
+  agentId       String
+  agent         Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  title         String
+  address       String
+  city          String    @default("London")
+  postcode      String?
+  type          String    // "apartment" | "house" | "penthouse" | "townhouse" | "studio"
+  bedrooms      Int       @default(1)
+  bathrooms     Int?
+  monthlyRent   String    // stored as string to preserve £ formatting / avoid float issues
+  landlordName  String?
+  ownerPhone    String?
+  available     Boolean   @default(true) // Legacy, keep for now
+  availableFrom DateTime?
+  availabilityStatus String @default("Pending") // "Pending" | "Available Now" | "Available Soon" | "Rented"
+  description   String?
+  epcRating     String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  tenants Tenant[]
+}
+
+// ─── Intake Link (secure time-limited application URL) ──────────────────────
+model IntakeLink {
+  id        String    @id @default(uuid())
+  agentId   String
+  agent     Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  token     String    @unique @default(uuid())
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  leads Lead[]
+}
+
+// ─── Tenant (converted won lead — active lease) ──────────────────────────────
+model Tenant {
+  id          String    @id @default(uuid())
+  agentId     String
+  agent       Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  leadId      String    @unique
+  lead        Lead      @relation(fields: [leadId], references: [id])
+  propertyId  String
+  property    Property  @relation(fields: [propertyId], references: [id])
+  leaseStart  DateTime
+  leaseEnd    DateTime?
+  monthlyRent String
+  depositHeld String?
+  status      String    @default("Active") // Active | Ended | Renewed
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+// ─── Audit Log (immutable event trail) ──────────────────────────────────────
+model AuditLog {
+  id        String   @id @default(uuid())
+  agentId   String?
+  agent     Agent?   @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  action    String   // e.g. "lead.created", "lead.status_changed", "lead.deleted", "auth.failed_login"
+  targetId  String?
+  metadata  String?    // Never contains full PII payloads — only IDs, old/new values
+  createdAt DateTime @default(now())
+}
+
+// ─── Password Reset Token ────────────────────────────────────────────────────
+model PasswordReset {
+  id        String    @id @default(uuid())
+  agentId   String
+  agent     Agent     @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  token     String    @unique @default(uuid())
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}
