@@ -1,6 +1,12 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazily initialize so the build doesn't crash when env vars are absent
+function getResend() {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error("RESEND_API_KEY is not set");
+  return new Resend(key);
+}
+
 const FROM = process.env.RESEND_FROM_EMAIL ?? "noreply@qletlettings.com";
 
 /**
@@ -19,6 +25,12 @@ export async function sendNewLeadNotification({
   propertyType?: string | null;
   area?: string | null;
 }) {
+  if (!process.env.RESEND_API_KEY) {
+    console.info("[Email Service] RESEND_API_KEY not set, skipping email.");
+    return null;
+  }
+
+  const resend = getResend();
   const { error } = await resend.emails.send({
     from: FROM,
     to: agentEmail,
@@ -58,8 +70,13 @@ export async function sendPasswordResetEmail({
   resetToken: string;
   name: string;
 }) {
-  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/login/reset-password?token=${resetToken}`;
+  if (!process.env.RESEND_API_KEY) {
+    console.info("[Email Service] RESEND_API_KEY not set, skipping password reset email.");
+    return null;
+  }
 
+  const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/login/reset-password?token=${resetToken}`;
+  const resend = getResend();
   const { error } = await resend.emails.send({
     from: FROM,
     to,
@@ -116,6 +133,7 @@ export async function sendViewingScheduleEmail({
   }
 
   try {
+    const resend = getResend();
     const formattedDate = new Date(viewingDate + "T12:00:00").toLocaleDateString(undefined, {
       weekday: "long",
       year: "numeric",
