@@ -48,6 +48,12 @@ export async function POST(
     });
 
     if (intakeLink) {
+      if (intakeLink.usedAt) {
+        return NextResponse.json({ error: "This intake link has already been used and is no longer active." }, { status: 403 });
+      }
+      if (intakeLink.expiresAt < new Date()) {
+        return NextResponse.json({ error: "This intake link has expired." }, { status: 403 });
+      }
       agentId = intakeLink.agentId;
     } else {
       // Fallback: grab the first agent in the system so local testing works with mock slugs
@@ -103,6 +109,14 @@ export async function POST(
         metadata: JSON.stringify({ slug }),
       }
     });
+
+    // Invalidate the link so it can't be used again
+    if (intakeLink) {
+      await prisma.intakeLink.update({
+        where: { id: intakeLink.id },
+        data: { usedAt: new Date() }
+      });
+    }
 
     return NextResponse.json({ success: true, lead: newLead });
 

@@ -50,10 +50,9 @@ export async function POST(request: Request) {
     // Derive base URL from the incoming request so it always matches the
     // actual domain (production, preview, or local) without relying on the
     // build-time baked NEXT_PUBLIC_APP_URL value.
-    const requestUrl = new URL(request.url);
-    const baseUrl =
-      process.env.NEXT_PUBLIC_APP_URL ||
-      `${requestUrl.protocol}//${requestUrl.host}`;
+    const host = request.headers.get("x-forwarded-host") || request.headers.get("host");
+    const protocol = request.headers.get("x-forwarded-proto") || (host?.includes("localhost") ? "http" : "https");
+    const baseUrl = `${protocol}://${host}`;
     const shareableUrl = `${baseUrl}/intake/${link.id}`;
 
     return NextResponse.json(
