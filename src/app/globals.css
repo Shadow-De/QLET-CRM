@@ -249,4 +249,24 @@
   .brand-gradient-glow {
     box-shadow: 0 0 25px rgba(230, 57, 155, 0.45);
   }
+
+  /* ── Mobile / PWA utilities ── */
+
+  /* iOS safe area for bottom tab bar (notch / home indicator) */
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* Prevent text selection on nav items for app-like feel */
+  nav a,
+  nav button {
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  /* Smooth momentum scrolling on iOS */
+  .scroll-smooth-ios {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+  }
 }

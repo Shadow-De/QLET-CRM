@@ -1,4 +1,4 @@
-import { SideNavBar } from "@/components/layout/SideNavBar";
+import { SideNavBar, BottomTabBar } from "@/components/layout/SideNavBar";
 import { TopNavBar } from "@/components/layout/TopNavBar";
 
 export default function DashboardLayout({
@@ -13,16 +13,20 @@ export default function DashboardLayout({
       <div className="bloom-mid-left"></div>
 
       <div className="flex min-h-screen relative z-10">
+        {/* Desktop Sidebar */}
         <SideNavBar />
 
-        {/* Main Content Container with Margin to clear SideNav */}
+        {/* Main Content Container */}
         <div className="flex-1 md:ml-[280px] flex flex-col min-w-0">
           <TopNavBar />
-          
-          {children}
 
-          {/* Sub-canvas Footer Note */}
-          <footer className="mt-auto px-8 py-6 max-w-[1680px] w-full mx-auto border-t border-outline-variant/20 flex flex-col sm:flex-row items-center justify-between gap-4 text-label-sm font-label-sm text-outline">
+          {/* Page content — extra bottom padding on mobile for the bottom tab bar */}
+          <div className="flex-1 pb-16 md:pb-0">
+            {children}
+          </div>
+
+          {/* Footer — hidden on mobile to save space */}
+          <footer className="hidden md:flex mt-auto px-8 py-6 max-w-[1680px] w-full mx-auto border-t border-outline-variant/20 flex-col sm:flex-row items-center justify-between gap-4 text-label-sm font-label-sm text-outline">
             <div>QletLettings Enterprise Estate CRM v3.4.12 · Architecture Night Mode</div>
             <div className="flex items-center gap-6">
               <span className="flex items-center gap-1.5">
@@ -33,6 +37,9 @@ export default function DashboardLayout({
           </footer>
         </div>
       </div>
+
+      {/* Mobile Bottom Tab Navigation */}
+      <BottomTabBar />
     </div>
   );
 }
